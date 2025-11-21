@@ -130,7 +130,7 @@ git init
 git add .
 git commit -m "Initial commit - Stripe Checkout POC"
 git branch -M main
-git remote add origin https://github.com/YOUR_USERNAME/stripe-checkout-poc.git
+git remote add origin https://github.com/zchristmas-cic/stripe-checkout-poc.git
 git push -u origin main
 ```
 
@@ -153,7 +153,7 @@ npm run deploy
 ```
 
 6. **Access your app:**
-   - URL will be: `https://YOUR_USERNAME.github.io/stripe-checkout-poc/`
+   - URL will be: `https://zchristmas-cic.github.io/stripe-checkout-poc/`
 
 ### Option B: Simple Deploy (Both on Vercel)
 

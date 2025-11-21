@@ -73,7 +73,7 @@ const App: React.FC = () => {
               📚 Stripe Docs
             </a>
             <a
-              href="https://github.com/yourusername/stripe-checkout-poc"
+              href="https://github.com/zchristmas-cic/stripe-checkout-poc"
               target="_blank"
               rel="noopener noreferrer"
             >
