@@ -44,7 +44,7 @@ app.use(cors({
     // Allow requests with no origin (like mobile apps or curl)
     if (!origin) return callback(null, true);
 
-    if (allowedOrigins.some(allowed => origin.startsWith(allowed))) {
+    if (allowedOrigins.some(allowed => allowed && origin.startsWith(allowed))) {
       callback(null, true);
     } else {
       callback(new Error('Not allowed by CORS'));
@@ -144,7 +144,7 @@ app.post('/api/confirm-payment', async (req: Request, res: Response) => {
  * For saving payment methods for future use (subscriptions, etc.)
  * Not needed for one-time payments, but included for completeness.
  */
-app.post('/api/create-setup-intent', async (req: Request, res: Response) => {
+app.post('/api/create-setup-intent', async (_req: Request, res: Response) => {
   try {
     const setupIntent = await stripe.setupIntents.create({
       automatic_payment_methods: {
