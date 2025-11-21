@@ -25,14 +25,31 @@ if (!process.env.STRIPE_SECRET_KEY) {
 
 // Initialize Stripe with API key
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
-  apiVersion: '2024-11-20.acacia',
+  apiVersion: '2025-02-24.acacia',
   typescript: true,
 });
 
 // Middleware
 app.use(express.json());
+
+// CORS configuration - allow multiple origins
+const allowedOrigins = [
+  'http://localhost:5175',
+  'https://zchristmas-cic.github.io',
+  process.env.FRONTEND_URL,
+].filter(Boolean);
+
 app.use(cors({
-  origin: process.env.FRONTEND_URL || 'http://localhost:5175',
+  origin: (origin, callback) => {
+    // Allow requests with no origin (like mobile apps or curl)
+    if (!origin) return callback(null, true);
+
+    if (allowedOrigins.some(allowed => origin.startsWith(allowed))) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
   credentials: true,
 }));
 
@@ -152,7 +169,7 @@ app.post('/api/create-setup-intent', async (req: Request, res: Response) => {
  * In production, you'd use this to handle payment confirmations,
  * failures, disputes, etc. reliably (since the client can disconnect).
  */
-app.post('/api/webhook', express.raw({ type: 'application/json' }), async (req: Request, res: Response) => {
+app.post('/api/webhook', express.raw({ type: 'application/json' }), async (req: express.Request, res: express.Response) => {
   const sig = req.headers['stripe-signature'];
   const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
 
